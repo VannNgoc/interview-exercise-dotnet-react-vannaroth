@@ -23,14 +23,15 @@ export default function CourseTable({ courses, onSync }: CourseTableProps) {
 
   return (
     <table className="course-table">
+      <caption className={'screen-reader-only'}>Courses and their Syllabus sync status.</caption>
       <thead>
         <tr>
-          <th>Code</th>
-          <th>Title</th>
-          <th>Department</th>
-          <th>Term</th>
-          <th>Syllabus Status</th>
-          <th>Last Synced</th>
+          <th scope="col">Code</th>
+          <th scope="col">Title</th>
+          <th scope="col">Department</th>
+          <th scope="col">Term</th>
+          <th scope="col">Syllabus Status</th>
+          <th scope="col">Last Synced</th>
           {/* TODO(candidate): a column for the "Sync Now" action */}
           <th>Sync</th>
         </tr>
@@ -38,7 +39,7 @@ export default function CourseTable({ courses, onSync }: CourseTableProps) {
       <tbody>
         {courses.map((course) => (
           <tr key={course.id}>
-            <td>{course.code}</td>
+            <th scope="row">{course.code}</th>
             <td>{course.title}</td>
             <td>{course.department}</td>
             <td>{course.term}</td>

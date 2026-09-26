@@ -55,3 +55,17 @@ h1 {
   color: #666;
   font-style: italic;
 }
+
+.screen-reader-only {
+  position: absolute;      /* take it out of layout so it doesn't push content around */
+  width: 1px;              /* shrink to near-zero; some screen readers skip 0×0 elements */
+  height: 1px;
+  padding: 0;
+  margin: -1px;            /* cancel out the 1px footprint */
+  overflow: hidden;        /* clip the text that spills out of the 1px box */
+  clip: rect(0, 0, 0, 0);  /* legacy way to clip it to nothing */
+  clip-path: inset(50%);   /* modern equivalent of clip */
+  white-space: nowrap;     /* stop text wrapping into a tall 1px column, which some
+                            screen readers would read word by word */
+  border: 0;
+}
