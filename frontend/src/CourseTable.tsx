@@ -1,8 +1,10 @@
-import type { CourseSummary } from "./types";
+import type { CourseSummary, SyncState } from "./types";
 import StatusPill from "./StatusPill";
+import SyncButton from "./SyncButton";
 
 interface CourseTableProps {
   courses: CourseSummary[];
+  syncStates: Record<number, SyncState>;
   onSync: (id: number) => void | Promise<void>;
 }
 
@@ -13,7 +15,7 @@ interface CourseTableProps {
 //      `course.isOutOfDate`) so an instructor can spot them at a glance.
 //   2. Add a "Sync Now" button per row that calls `onSync(course.id)`, with
 //      an accessible in-progress / disabled state while the request runs.
-export default function CourseTable({ courses, onSync }: CourseTableProps) {
+export default function CourseTable({ courses, syncStates, onSync }: CourseTableProps) {
   if (courses.length === 0) {
     return <p className="empty">No courses to show.</p>;
   }
@@ -34,7 +36,7 @@ export default function CourseTable({ courses, onSync }: CourseTableProps) {
           <th scope="col">Syllabus Status</th>
           <th scope="col">Last Synced</th>
           {/* TODO(candidate): a column for the "Sync Now" action */}
-          <th>Sync</th>
+          <th scope="col" className="sync-col">Sync</th>
         </tr>
       </thead>
       <tbody>
@@ -50,9 +52,12 @@ export default function CourseTable({ courses, onSync }: CourseTableProps) {
             <td>{formatLastSynced(course.lastSyncedUtc)}</td>
             {/* TODO(candidate): a "Sync Now" button that calls onSync(course.id) */}
             <td>
-              <button className={`sync-btn`} onClick={()=> onSync(course.id)}>
-                Sync Now
-              </button>
+              <SyncButton
+                courseId={course.id}
+                courseCode={course.code}
+                syncState={syncStates[course.id]}
+                onSync={onSync}
+              />
             </td>
           </tr>
         ))}
