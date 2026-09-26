@@ -47,7 +47,7 @@ export default function CourseTable({ courses, syncStates, onSync }: CourseTable
             <td>{course.department}</td>
             <td>{course.term}</td>
             <td>
-              <StatusPill status={course.syllabusStatus} />
+              <StatusPill id={`status-${course.id}`} status={course.syllabusStatus} />
             </td>
             <td>{formatLastSynced(course.lastSyncedUtc)}</td>
             {/* TODO(candidate): a "Sync Now" button that calls onSync(course.id) */}

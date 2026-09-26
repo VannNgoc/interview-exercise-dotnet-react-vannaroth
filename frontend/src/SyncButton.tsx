@@ -22,6 +22,10 @@ export default function SyncButton({
   const isSyncing = syncState?.status === "syncing";
   const errorMessage = syncState?.status === "error" ? syncState.message : null;
   const errorId = `sync-error-${courseId}`;
+  // The row's status pill (rendered by CourseTable) describes the button, so a
+  // screen-reader user tabbing between rows hears the status alongside the action.
+  const statusId = `status-${courseId}`;
+  const describedBy = errorMessage ? `${statusId} ${errorId}` : statusId;
 
   function handleClick(): void {
     if (isSyncing) {
@@ -38,7 +42,7 @@ export default function SyncButton({
         onClick={handleClick}
         aria-disabled={isSyncing}
         aria-busy={isSyncing}
-        aria-describedby={errorMessage ? errorId : undefined}
+        aria-describedby={describedBy}
       >
         {isSyncing && <Spinner />}
         {!isSyncing && errorMessage && <RetryIcon />}
