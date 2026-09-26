@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { fetchCourses } from "./api";
+import { fetchCourses, syncCourse } from "./api";
 import CourseTable from "./CourseTable";
 import type { CourseSummary } from "./types";
 
@@ -22,7 +22,13 @@ export default function App() {
   // with the returned record. Think about how to reflect the in-progress and
   // error states for the specific row being synced.
   async function handleSync(id: number): Promise<void> {
-    console.warn(`handleSync(${id}) is not implemented yet`);
+    try{
+      const updatedCourse = await syncCourse(id);
+      setCourses((prev) => prev.map((course) => (course.id === id ?  updatedCourse : course)))
+    } catch(err: unknown) {
+      const message : string = err instanceof Error ? err.message : "Something went wrong";
+      setError(`Sync failed: ${message}`);
+    }
   }
 
   return (

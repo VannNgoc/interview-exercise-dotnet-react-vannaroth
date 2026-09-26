@@ -20,6 +20,15 @@ export async function fetchCourses(): Promise<CourseSummary[]> {
 // TODO(candidate): implement this. It should POST to the sync endpoint for the
 // given course id and return the updated CourseSummary from the response body.
 // Remember to handle a non-OK response the same way fetchCourses does.
-export async function syncCourse(_id: number): Promise<CourseSummary> {
-  throw new Error("syncCourse is not implemented yet");
+export async function syncCourse(id: number): Promise<CourseSummary> {
+  const url : string = `${BASE_URL}/api/courses/${id}/sync`;
+    const response = await fetch(url,
+        {
+          method: 'POST'
+        }
+    );
+    if (!response.ok) {
+      throw new Error(`Failed to sync course (HTTP ${response.status})`);
+    }
+    return response.json();
 }
