@@ -60,6 +60,42 @@ h1 {
   box-shadow: inset 4px 0 0 #b45309;
 }
 
+.sync-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-width: 7.5rem;
+  min-height: 2.25rem; /* comfortable touch/click target */
+  padding: 0.4rem 0.9rem;
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 600;
+  white-space: nowrap;
+  color: #fff;
+  background: #b00;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+
+.sync-btn:hover {
+  background: #1e1e1e;
+}
+
+
+.sync-btn:focus {
+  outline: 3px solid #000;
+  outline-offset: 1px;
+}
+
+
+.sync-btn:focus-visible {
+  outline: 3px solid #1f5fd6;
+  outline-offset: 2px;
+}
+
 .error {
   color: #b71234;
 }
