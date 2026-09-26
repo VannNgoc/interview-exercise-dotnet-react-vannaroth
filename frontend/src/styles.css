@@ -118,3 +118,47 @@ h1 {
                             screen readers would read word by word */
   border: 0;
 }
+
+/* Syllabus status pill. Text/background contrast is >= 8:1 for every variant
+   (WCAG 1.4.3); borders are >= 4.3:1 against white and highlighted rows (1.4.11). */
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.2rem 0.65rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.3;
+  white-space: nowrap;
+  border: 1px solid;
+  border-radius: 999px;
+}
+
+.status-pill__icon {
+  flex-shrink: 0;
+}
+
+.status-pill--InSync {
+  color: #14532d;
+  background: #e6f4ea;
+  border-color: #15803d;
+}
+
+.status-pill--OutOfDate {
+  color: #7c2d12;
+  background: #fdecc8;
+  border-color: #b45309;
+}
+
+.status-pill--NotSubmitted {
+  color: #374151;
+  background: #eceef1;
+  border-color: #4b5563;
+}
+
+/* Windows High Contrast / forced colors: keep the pill outline visible. */
+@media (forced-colors: active) {
+  .status-pill {
+    border-color: CanvasText;
+  }
+}

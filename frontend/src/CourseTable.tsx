@@ -1,4 +1,5 @@
 import type { CourseSummary } from "./types";
+import StatusPill from "./StatusPill";
 
 interface CourseTableProps {
   courses: CourseSummary[];
@@ -43,7 +44,9 @@ export default function CourseTable({ courses, onSync }: CourseTableProps) {
             <td>{course.title}</td>
             <td>{course.department}</td>
             <td>{course.term}</td>
-            <td>{course.syllabusStatus}</td>
+            <td>
+              <StatusPill status={course.syllabusStatus} />
+            </td>
             <td>{formatLastSynced(course.lastSyncedUtc)}</td>
             {/* TODO(candidate): a "Sync Now" button that calls onSync(course.id) */}
             <td>
