@@ -15,3 +15,8 @@ export interface CourseSummary {
   lastSyncedUtc: string | null;
   isOutOfDate: boolean;
 }
+
+// Per-row state of a "Sync Now" request. Rows with no entry are idle.
+export type SyncState =
+  | { status: "syncing" }
+  | { status: "error"; message: string };

@@ -65,7 +65,7 @@ h1 {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  min-width: 7.5rem;
+  min-width: 8.5rem; /* fits the widest label (spinner + "Syncing…") so it never resizes */
   min-height: 2.25rem; /* comfortable touch/click target */
   padding: 0.4rem 0.9rem;
   font: inherit;
@@ -94,6 +94,95 @@ h1 {
 .sync-btn:focus-visible {
   outline: 3px solid #1f5fd6;
   outline-offset: 2px;
+}
+
+/* Busy state: muted grey so it no longer looks like the clickable red
+   "Sync Now". Text stays readable (#3d3d3d on #e4e4e4 is ~8.5:1) even though
+   it's inactive, since the "Syncing…" label is the progress message. */
+.sync-btn[aria-disabled="true"],
+.sync-btn[aria-disabled="true"]:hover {
+  color: #3d3d3d;
+  background: #e4e4e4;
+  border-color: #b3b3b3;
+  cursor: progress;
+}
+
+/* Error/retry state: outlined instead of filled so it reads as a different
+   action at a glance. #b71234 on #fff is >= 6:1 for text, and the border
+   clears the 3:1 non-text contrast minimum (WCAG 1.4.11). Explicit white
+   background keeps contrast on the tinted out-of-date rows. */
+.sync-btn--error {
+  color: #b71234;
+  background: #fff;
+  border: 2px solid #b71234;
+  padding: calc(0.4rem - 1px) calc(0.9rem - 1px); /* offset the thicker border so size doesn't shift */
+}
+
+.sync-btn--error:hover {
+  color: #fff;
+  background: #b71234;
+}
+
+.sync-btn__icon {
+  flex-shrink: 0;
+}
+
+.sync-spinner {
+  flex-shrink: 0;
+  animation: sync-spin 0.8s linear infinite;
+}
+
+@keyframes sync-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* WCAG 2.3.3: honor reduced-motion. The "Syncing…" text still shows progress. */
+@media (prefers-reduced-motion: reduce) {
+  .sync-spinner {
+    animation-duration: 3s;
+  }
+}
+
+/* Fixed width so a row's error message wraps inside this column instead of
+   widening it and re-flowing every other column in the table. */
+.course-table .sync-col {
+  width: 11rem;
+}
+
+.sync-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.35rem;
+}
+
+/* #b71234 is >= 6:1 on white and on the highlighted out-of-date row. */
+.sync-error {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.3rem;
+  margin: 0;
+  overflow-wrap: anywhere;
+  font-size: 0.8125rem;
+  color: #b71234;
+}
+
+.sync-error__icon {
+  flex-shrink: 0;
+  margin-top: 0.15rem;
+}
+
+@media (forced-colors: active) {
+  .sync-btn {
+    border-color: ButtonText;
+  }
+
+  .sync-btn[aria-disabled="true"] {
+    color: GrayText;
+    border-color: GrayText;
+  }
 }
 
 .error {
