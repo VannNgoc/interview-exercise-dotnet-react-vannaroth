@@ -2,6 +2,9 @@ import type { SyllabusStatus } from "./types";
 
 interface StatusPillProps {
   status: SyllabusStatus;
+  // Optional id on the label so other controls (e.g. the row's Sync button)
+  // can reference the status via aria-describedby.
+  id?: string;
 }
 
 // Human-readable labels for each status (the API sends PascalCase enum names).
@@ -13,16 +16,16 @@ const STATUS_LABELS: Record<SyllabusStatus, string> = {
 
 // Pill showing a syllabus status with a decorative icon. The icon is hidden
 // from assistive tech and never focusable; the visible text carries the meaning.
-export default function StatusPill({ status }: StatusPillProps) {
+export default function StatusPill({ status, id }: StatusPillProps) {
   return (
     <span className={`status-pill status-pill--${status}`}>
       <StatusIcon status={status} />
-      <span>{STATUS_LABELS[status]}</span>
+      <span id={id}>{STATUS_LABELS[status]}</span>
     </span>
   );
 }
 
-function StatusIcon({ status }: StatusPillProps) {
+function StatusIcon({ status }: { status: SyllabusStatus }) {
   return (
     <svg
       className="status-pill__icon"
