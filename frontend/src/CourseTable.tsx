@@ -20,49 +20,56 @@ export default function CourseTable({ courses, syncStates, onSync }: CourseTable
     return <p className="empty">No courses to show.</p>;
   }
 
-  // `onSync` is intentionally referenced here so the wiring is in place; wire it
-  // to your Sync button when you add it below.
-  // void onSync;
-
+  // The scroll wrapper keeps the table from widening the whole page on narrow
+  // screens (WCAG 1.4.10). It's focusable so keyboard users can scroll it.
   return (
-    <table className="course-table">
-      <caption className={'screen-reader-only'}>Courses and their Syllabus sync status.</caption>
-      <thead>
-        <tr>
-          <th scope="col">Code</th>
-          <th scope="col">Title</th>
-          <th scope="col">Department</th>
-          <th scope="col">Term</th>
-          <th scope="col">Syllabus Status</th>
-          <th scope="col">Last Synced</th>
-          {/* TODO(candidate): a column for the "Sync Now" action */}
-          <th scope="col" className="sync-col">Sync</th>
-        </tr>
-      </thead>
-      <tbody>
-        {courses.map((course) => (
-          <tr className={course.isOutOfDate ? "out-of-date" : "in-sync"} key={course.id}>
-            <th scope="row">{course.code}</th>
-            <td>{course.title}</td>
-            <td>{course.department}</td>
-            <td>{course.term}</td>
-            <td>
-              <StatusPill id={`status-${course.id}`} status={pillStatus(course)} />
-            </td>
-            <td>{formatLastSynced(course.lastSyncedUtc)}</td>
-            {/* TODO(candidate): a "Sync Now" button that calls onSync(course.id) */}
-            <td>
-              <SyncButton
-                courseId={course.id}
-                courseCode={course.code}
-                syncState={syncStates[course.id]}
-                onSync={onSync}
-              />
-            </td>
+    <div
+      className="table-scroll"
+      role="region"
+      aria-labelledby="course-table-caption"
+      tabIndex={0}
+    >
+      <table className="course-table">
+        <caption id="course-table-caption" className="screen-reader-only">
+          Courses and their Syllabus sync status.
+        </caption>
+        <thead>
+          <tr>
+            <th scope="col">Code</th>
+            <th scope="col">Title</th>
+            <th scope="col">Department</th>
+            <th scope="col">Term</th>
+            <th scope="col">Syllabus Status</th>
+            <th scope="col">Last Synced</th>
+            {/* TODO(candidate): a column for the "Sync Now" action */}
+            <th scope="col" className="sync-col">Sync</th>
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {courses.map((course) => (
+            <tr className={course.isOutOfDate ? "out-of-date" : "in-sync"} key={course.id}>
+              <th scope="row">{course.code}</th>
+              <td>{course.title}</td>
+              <td>{course.department}</td>
+              <td>{course.term}</td>
+              <td>
+                <StatusPill id={`status-${course.id}`} status={pillStatus(course)} />
+              </td>
+              <td>{formatLastSynced(course.lastSyncedUtc)}</td>
+              {/* TODO(candidate): a "Sync Now" button that calls onSync(course.id) */}
+              <td>
+                <SyncButton
+                  courseId={course.id}
+                  courseCode={course.code}
+                  syncState={syncStates[course.id]}
+                  onSync={onSync}
+                />
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 }
 
