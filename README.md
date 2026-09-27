@@ -217,17 +217,34 @@ folder). If you didn't use AI, say so in the AI-usage note above.
 
 ## Submission
 
-> _Fill this in before you submit. Delete these italic prompts as you go._
-
 ### AI usage
+I used Claude Code mainly for the status pill, the Sync button's in-progress/error
+logic, and as a final reviewer for blind spots in my implementation. Commits with
+AI-generated code, or bugs the AI caught, are marked in the commit messages. For
+example, it caught that course times were off by the local UTC offset
+(`DateTime.Now` vs `DateTime.UtcNow`).
 
-_Which tools, where you corrected/reviewed the AI output, and anything it got
-confidently wrong._
+The AI was confident about the status pill but got it wrong: it rendered the pill
+from `syllabusStatus` alone and ignored `isOutOfDate`. It also tried to add a new
+"InSync (stale)" pill, which made no sense given how the exercise is set up, and I
+had to explain why.
+
+### Least sure about
+- **Courses with no submitted syllabus.** The requirement was unclear, so I emailed
+  to ask. I worked on this over the weekend, so I don't expect a reply until a
+  workday. I've already spent about 3 hours total, so I didn't implement business
+  logic for this case.
 
 ### If I had two more hours
-
-_What you'd add or improve next, and what you're least sure about._
+- Implement the clarified requirements for the not-submitted case.
+- Sync out-of-date syllabi automatically after fetching courses, or at least add a
+  "Sync all" button. I can't see anyone wanting to keep an out-of-date syllabus.
+  The tradeoff with auto-sync is extra requests to the server, which adds up across
+  all faculty and students, so I'd batch them or run them as a background job.
+- Improve error messages and how they're displayed so that they are more helpful and more concise to users.
+- Add filtering by column.
+- Add tests for the Sync button states and the 30-day `IsOutOfDate` boundary.
 
 ### AI chat export
 
-_Where your exported chat(s) live in the repo (e.g. `chats/`)._
+Exported chats are in [`chats/`](chats/).
