@@ -1,4 +1,6 @@
 :root {
+  --brand-scarlet: #b71234;
+  --brand-scarlet-dark: #8f0e28;
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   color: #1a1a1a;
 }
@@ -38,7 +40,7 @@ h1 {
 }
 
 .course-table thead th {
-  background: #b71234; /* OSU-ish scarlet */
+  background: var(--brand-scarlet); /* OSU-ish scarlet */
   color: #fff;
   font-weight: 600;
 }
@@ -73,7 +75,7 @@ h1 {
   font-weight: 600;
   white-space: nowrap;
   color: #fff;
-  background: #b00;
+  background: var(--brand-scarlet);
   border: 1px solid transparent;
   border-radius: 4px;
   cursor: pointer;
@@ -81,13 +83,11 @@ h1 {
 
 
 .sync-btn:hover {
-  background: #1e1e1e;
+  background: var(--brand-scarlet-dark);
 }
 
-
-.sync-btn:focus {
-  outline: 3px solid #000;
-  outline-offset: 1px;
+.sync-btn:not([aria-disabled="true"]):active {
+  transform: translateY(1px);
 }
 
 
@@ -138,10 +138,11 @@ h1 {
   }
 }
 
-/* WCAG 2.3.3: honor reduced-motion. The "Syncing…" text still shows progress. */
+/* WCAG 2.3.3: honor reduced-motion. The arc stays still; the "Syncing…" text
+   still shows progress. */
 @media (prefers-reduced-motion: reduce) {
   .sync-spinner {
-    animation-duration: 3s;
+    animation: none;
   }
 }
 
