@@ -1,4 +1,4 @@
-import type { CourseSummary, SyncState } from "./types";
+import type { CourseSummary, SyllabusStatus, SyncState } from "./types";
 import StatusPill from "./StatusPill";
 import SyncButton from "./SyncButton";
 
@@ -47,7 +47,7 @@ export default function CourseTable({ courses, syncStates, onSync }: CourseTable
             <td>{course.department}</td>
             <td>{course.term}</td>
             <td>
-              <StatusPill id={`status-${course.id}`} status={course.syllabusStatus} />
+              <StatusPill id={`status-${course.id}`} status={pillStatus(course)} />
             </td>
             <td>{formatLastSynced(course.lastSyncedUtc)}</td>
             {/* TODO(candidate): a "Sync Now" button that calls onSync(course.id) */}
@@ -64,6 +64,15 @@ export default function CourseTable({ courses, syncStates, onSync }: CourseTable
       </tbody>
     </table>
   );
+}
+
+// "Not submitted" takes precedence; otherwise the pill follows `isOutOfDate`
+// (which also covers stale syncs) rather than the raw `syllabusStatus`.
+function pillStatus(course: CourseSummary): SyllabusStatus {
+  if (course.syllabusStatus === "NotSubmitted") {
+    return "NotSubmitted";
+  }
+  return course.isOutOfDate ? "OutOfDate" : "InSync";
 }
 
 function formatLastSynced(lastSyncedUtc: string | null): string {
