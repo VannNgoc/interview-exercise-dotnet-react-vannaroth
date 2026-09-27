@@ -62,7 +62,7 @@ public static class CourseEndpoints
         if (course.LastSyncedUtc is null)
             return false;
 
-        var age = DateTime.Now - course.LastSyncedUtc.Value;
+        var age = DateTime.UtcNow - course.LastSyncedUtc.Value;
         return age.TotalDays > CourseStore.StalenessThresholdDays;
     }
 }
