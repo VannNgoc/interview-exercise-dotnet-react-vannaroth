@@ -221,7 +221,7 @@ folder). If you didn't use AI, say so in the AI-usage note above.
 I used Claude Code mainly for the status pill, the Sync button's in-progress/error
 logic, and as a final reviewer for blind spots in my implementation. Commits with
 AI-generated code, or bugs the AI caught, are marked in the commit messages. For
-example, it caught that course times were off by the local UTC offset
+example, it caught that course staleness age were off by the local UTC offset
 (`DateTime.Now` vs `DateTime.UtcNow`).
 
 The AI was confident about the status pill but got it wrong: it rendered the pill
@@ -237,6 +237,8 @@ had to explain why.
 
 ### If I had two more hours
 - Implement the clarified requirements for the not-submitted case.
+- Take more time looking at backend suggestions from the AI Agent and learn why the suggestion were made and 
+  how to implement. Since I would love to grow in this area skill wise.
 - Sync out-of-date syllabi automatically after fetching courses, or at least add a
   "Sync all" button. I can't see anyone wanting to keep an out-of-date syllabus.
   The tradeoff with auto-sync is extra requests to the server, which adds up across
@@ -247,4 +249,4 @@ had to explain why.
 
 ### AI chat export
 
-Exported chats are in [`chats/`](chats/).
+Exported chats are in [`chats/`](chats/) with a [`chats/README.md`](chats/README.md) file to easily jump between chats and showing which commits they belong to.
