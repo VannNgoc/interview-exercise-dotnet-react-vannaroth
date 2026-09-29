@@ -246,6 +246,8 @@ still hear "Not submitted".
   on the upload changing the status to `OutOfDate`. The upload workflow isn't part
   of this exercise, so I couldn't check what it actually does. If it doesn't change
   the status, those courses stay "Not submitted" with Sync Now disabled.
+- **Whether to leave the TODO comments in.** I left them in so reviewers can easily
+  find what I was supposed to implement. Usually I would remove them after finishing the item.
 
 ### If I had two more hours
 - Take more time looking at the backend suggestions from the AI agent, and learn
