@@ -64,8 +64,13 @@ public static class CourseEndpoints
         if (course.SyllabusStatus == "OutOfDate")
             return true;
 
-        if (course.LastSyncedUtc is null)
+        // Nothing can go stale until a syllabus has been submitted.
+        if (course.SyllabusStatus == "NotSubmitted")
             return false;
+
+        // A submitted syllabus that has never been synced can't be current.
+        if (course.LastSyncedUtc is null)
+            return true;
 
         var age = DateTime.UtcNow - course.LastSyncedUtc.Value;
         return age.TotalDays > CourseStore.StalenessThresholdDays;

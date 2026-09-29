@@ -219,33 +219,38 @@ folder). If you didn't use AI, say so in the AI-usage note above.
 
 ### AI usage
 I used Claude Code mainly for the status pill, the Sync button's in-progress/error
-logic, and as a final reviewer for blind spots in my implementation. Commits with
-AI-generated code, or bugs the AI caught, are marked in the commit messages. For
-example, it caught that course staleness age were off by the local UTC offset
-(`DateTime.Now` vs `DateTime.UtcNow`).
-
-The AI was confident about the status pill but got it wrong: it rendered the pill
-from `syllabusStatus` alone and ignored `isOutOfDate`. It also tried to add a new
-"InSync (stale)" pill, which made no sense given how the exercise is set up, and I
-had to explain why.
+logic, and as a final reviewer for blind spots in my implementation; I marked
+commits with AI-generated code or AI-caught bugs in their commit messages. As a
+reviewer it caught that course staleness ages were off by the local UTC offset
+(`DateTime.Now` vs `DateTime.UtcNow`). It was confident about the status pill but
+got it wrong: it rendered the pill from `syllabusStatus` alone and ignored
+`isOutOfDate`, then tried to add an "InSync (stale)" pill that made no sense given
+how the exercise is set up, so I had to explain why.
 
 ### Courses with no submitted syllabus
 I emailed to ask how to handle these, and the hiring team left the choice to me.
-Syncing one used to mark it "In sync" even though nothing was sent, so now the Sync
-button is disabled for those rows and the API returns 409 if it's called anyway.
-The button uses `aria-disabled` so it stays focusable and screen readers still hear
-"Not submitted". I'm assuming the instructor portal (out of scope here) sets the
-status to "Out of date" when a syllabus is submitted, so the flow is
-Not submitted → Out of date → Sync → In sync.
+Syncing one used to mark it "In sync" even though nothing was sent, so now the
+Sync Now button is disabled for those rows and the API returns 409 if it's called
+anyway. The button uses `aria-disabled` so it stays focusable and screen readers
+still hear "Not submitted".
+
+### Assumptions
+- The API has no auth checks. I'm assuming the user is already logged in and
+  authorized to sync the courses they can see.
+- Instructors upload syllabi through a separate workflow that's out of scope here.
+- That upload calls an API that changes the status from `NotSubmitted` to
+  `OutOfDate`, so the flow is Not submitted → Out of date → Sync → In sync.
 
 ### Least sure about
-- **What happens when a syllabus is submitted.** My handling of not-submitted
-  courses assumes the instructor portal sets the status to "Out of date" on
-  submission. I haven't confirmed that.
+- **What happens when a syllabus is submitted.** My not-submitted handling depends
+  on the upload changing the status to `OutOfDate`. The upload workflow isn't part
+  of this exercise, so I couldn't check what it actually does. If it doesn't change
+  the status, those courses stay "Not submitted" with Sync Now disabled.
 
 ### If I had two more hours
-- Take more time looking at backend suggestions from the AI Agent and learn why the suggestion were made and 
-  how to implement. Since I would love to grow in this area skill wise.
+- Take more time looking at the backend suggestions from the AI agent, and learn
+  why they were made and how to implement them myself. I'd love to grow my skills
+  in this area.
 - Sync out-of-date syllabi automatically after fetching courses, or at least add a
   "Sync all" button. I can't see anyone wanting to keep an out-of-date syllabus.
   The tradeoff with auto-sync is extra requests to the server, which adds up across
@@ -256,4 +261,4 @@ Not submitted → Out of date → Sync → In sync.
 
 ### AI chat export
 
-Exported chats are in [`chats/`](chats/) with a [`chats/README.md`](chats/README.md) file to easily jump between chats and showing which commits they belong to.
+Exported chats are in [`chats/`](chats/) with a [`chats/README.md`](chats/README.md) file that links each chat to the commits it belongs to.
