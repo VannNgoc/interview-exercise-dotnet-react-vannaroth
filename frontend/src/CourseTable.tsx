@@ -62,6 +62,7 @@ export default function CourseTable({ courses, syncStates, onSync }: CourseTable
                   courseId={course.id}
                   courseCode={course.code}
                   syncState={syncStates[course.id]}
+                  canSync={course.syllabusStatus !== "NotSubmitted"}
                   onSync={onSync}
                 />
               </td>

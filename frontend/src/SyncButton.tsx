@@ -4,19 +4,23 @@ interface SyncButtonProps {
   courseId: number;
   courseCode: string;
   syncState: SyncState | undefined;
+  // False when there's no submitted syllabus to sync.
+  canSync: boolean;
   onSync: (id: number) => void | Promise<void>;
 }
 
 // "Sync Now" button for one course row, with busy and error states.
 //
-// While syncing we use aria-disabled rather than the `disabled` attribute:
-// `disabled` removes the button from the tab order, so a keyboard user who just
-// pressed it would lose focus (WCAG 2.4.3 / 2.4.7). aria-disabled keeps focus in
-// place, and the click handler ignores activations while busy.
+// While syncing, or when there's nothing to sync, we use aria-disabled rather
+// than the `disabled` attribute: `disabled` removes the button from the tab
+// order, so a keyboard user who just pressed it would lose focus, and one
+// tabbing through would never hear why it's unavailable (WCAG 2.4.3 / 2.4.7).
+// aria-disabled keeps it focusable, and the click handler ignores activations.
 export default function SyncButton({
   courseId,
   courseCode,
   syncState,
+  canSync,
   onSync,
 }: SyncButtonProps) {
   const isSyncing = syncState?.status === "syncing";
@@ -28,7 +32,7 @@ export default function SyncButton({
   const describedBy = errorMessage ? `${statusId} ${errorId}` : statusId;
 
   function handleClick(): void {
-    if (isSyncing) {
+    if (isSyncing || !canSync) {
       return;
     }
     void onSync(courseId);
@@ -40,7 +44,7 @@ export default function SyncButton({
         type="button"
         className={errorMessage && !isSyncing ? "sync-btn sync-btn--error" : "sync-btn"}
         onClick={handleClick}
-        aria-disabled={isSyncing}
+        aria-disabled={isSyncing || !canSync}
         aria-busy={isSyncing}
         aria-describedby={describedBy}
       >

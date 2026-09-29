@@ -229,14 +229,21 @@ from `syllabusStatus` alone and ignored `isOutOfDate`. It also tried to add a ne
 "InSync (stale)" pill, which made no sense given how the exercise is set up, and I
 had to explain why.
 
+### Courses with no submitted syllabus
+I emailed to ask how to handle these, and the hiring team left the choice to me.
+Syncing one used to mark it "In sync" even though nothing was sent, so now the Sync
+button is disabled for those rows and the API returns 409 if it's called anyway.
+The button uses `aria-disabled` so it stays focusable and screen readers still hear
+"Not submitted". I'm assuming the instructor portal (out of scope here) sets the
+status to "Out of date" when a syllabus is submitted, so the flow is
+Not submitted → Out of date → Sync → In sync.
+
 ### Least sure about
-- **Courses with no submitted syllabus.** The requirement was unclear, so I emailed
-  to ask. I worked on this over the weekend, so I don't expect a reply until a
-  workday. I've already spent about 3 hours total, so I didn't implement business
-  logic for this case.
+- **What happens when a syllabus is submitted.** My handling of not-submitted
+  courses assumes the instructor portal sets the status to "Out of date" on
+  submission. I haven't confirmed that.
 
 ### If I had two more hours
-- Implement the clarified requirements for the not-submitted case.
 - Take more time looking at backend suggestions from the AI Agent and learn why the suggestion were made and 
   how to implement. Since I would love to grow in this area skill wise.
 - Sync out-of-date syllabi automatically after fetching courses, or at least add a

@@ -33,6 +33,11 @@ public static class CourseEndpoints
             if (course is null)
                 return Results.NotFound();
 
+            // Nothing to sync until a syllabus is submitted; otherwise the course
+            // would be marked InSync with nothing sent.
+            if (course.SyllabusStatus == "NotSubmitted")
+                return Results.Conflict();
+
             course.LastSyncedUtc = DateTime.UtcNow;
             course.SyllabusStatus = "InSync";
 

@@ -116,6 +116,11 @@ h1 {
   cursor: progress;
 }
 
+/* Unavailable (no syllabus submitted)*/
+.sync-btn[aria-disabled="true"]:not([aria-busy="true"]) {
+  cursor: not-allowed;
+}
+
 /* Error/retry state: outlined instead of filled so it reads as a different
    action at a glance. #b71234 on #fff is >= 6:1 for text, and the border
    clears the 3:1 non-text contrast minimum (WCAG 1.4.11). Explicit white
